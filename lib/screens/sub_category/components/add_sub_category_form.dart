@@ -1,9 +1,10 @@
+import '../../../core/data/data_provider.dart';
+
 import '../../../models/sub_category.dart';
 import '../provider/sub_category_provider.dart';
 import '../../../utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../models/category.dart';
 import '../../../utility/constants.dart';
@@ -17,7 +18,9 @@ class SubCategorySubmitForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.subCategoryProvider.setDataForUpdateCategory(subCategory);
+    context
+        .read<SubCategoryProvider>()
+        .setDataForUpdateSubCategory(subCategory);
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Form(
@@ -41,7 +44,7 @@ class SubCategorySubmitForm extends StatelessWidget {
                         return CustomDropdown(
                           initialValue: subCatProvider.selectedCategory,
                           hintText: subCatProvider.selectedCategory?.name ?? 'Select category',
-                          items: context.dataProvider.categories,
+                          items: context.read<DataProvider>().categories,
                           displayItem: (Category? category) => category?.name ?? '',
                           onChanged: (newValue) {
                             if (newValue != null) {
@@ -96,9 +99,13 @@ class SubCategorySubmitForm extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Validate and save the form
-                      if (context.subCategoryProvider.addSubCategoryFormKey.currentState!.validate()) {
-                        context.subCategoryProvider.addSubCategoryFormKey.currentState!.save();
-                        //TODO: should complete call submitSubCategory
+                      final form = context
+                          .read<SubCategoryProvider>()
+                          .addSubCategoryFormKey
+                          .currentState;
+                      if (form != null && form.validate()) {
+                        form.save();
+                        context.read<SubCategoryProvider>().submitSubCategory();
                         Navigator.of(context).pop();
                       }
                     },

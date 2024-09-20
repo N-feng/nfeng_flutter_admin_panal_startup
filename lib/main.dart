@@ -12,6 +12,7 @@ import 'screens/main/main_screen.dart';
 import 'screens/main/provider/main_screen_provider.dart';
 import 'screens/notification/provider/notification_provider.dart';
 import 'screens/order/provider/order_provider.dart';
+import 'screens/ticket/provider/ticket_provider.dart';
 import 'screens/posters/provider/poster_provider.dart';
 import 'screens/sub_category/provider/sub_category_provider.dart';
 import 'screens/variants/provider/variant_provider.dart';
@@ -24,32 +25,47 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => DataProvider()),
     ChangeNotifierProvider(create: (context) => MainScreenProvider()),
-    ChangeNotifierProvider(create: (context) => CategoryProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => SubCategoryProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => BrandProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => VariantsTypeProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => VariantsProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => DashBoardProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => CouponCodeProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => PosterProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => OrderProvider(context.dataProvider)),
-    ChangeNotifierProvider(create: (context) => NotificationProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => CategoryProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => SubCategoryProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => BrandProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => VariantsTypeProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => VariantsProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => DashBoardProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => CouponCodeProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => PosterProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => OrderProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => TicketProvider(context.dataProvider)),
+    ChangeNotifierProvider(
+        create: (context) => NotificationProvider(context.dataProvider)),
   ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Admin Panel',
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
+        primaryColor: primaryColor,
+        scaffoldBackgroundColor: secondaryColor,
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
+        colorScheme: ColorScheme.highContrastDark(
+          primary: primaryColor,
+          secondary: secondaryColor,
+        ),
       ),
       initialRoute: AppPages.HOME,
       unknownRoute: GetPage(name: '/notFount', page: () => MainScreen()),

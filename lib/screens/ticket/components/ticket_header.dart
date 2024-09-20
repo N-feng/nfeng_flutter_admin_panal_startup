@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../utility/constants.dart';
 
-class BrandHeader extends StatelessWidget {
-  const BrandHeader({
+class TicketHeader extends StatelessWidget {
+  const TicketHeader({
     Key? key,
   }) : super(key: key);
 
@@ -13,13 +13,13 @@ class BrandHeader extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "Brands",
+          "Tickets",
           style: Theme.of(context).textTheme.titleLarge,
         ),
         Spacer(flex: 2),
         Expanded(child: SearchField(
           onChange: (val) {
-            context.dataProvider.filterBrands(val);
+            context.dataProvider.filterTickets(val);
           },
         )),
         ProfileCard()
@@ -49,12 +49,12 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            "assets/images/profile_pic.png",
-            height: 38,
+            "assets/images/coder.jpg",
+            height: 100,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-            child: Text("Angelina Jolie"),
+            child: Text("Ashewayna"),
           ),
           Icon(Icons.keyboard_arrow_down),
         ],
