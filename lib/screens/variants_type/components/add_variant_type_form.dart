@@ -1,5 +1,6 @@
+import 'package:admin/utility/extensions.dart';
 import '../../../models/variant_type.dart';
-import '../../../utility/extensions.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../utility/constants.dart';
@@ -82,7 +83,7 @@ class VariantTypeSubmitForm extends StatelessWidget {
                       // Validate and save the form
                       if (context.variantTypeProvider.addVariantsTypeFormKey.currentState!.validate()) {
                         context.variantTypeProvider.addVariantsTypeFormKey.currentState!.save();
-                        //TODO: should complete call submitVariantType
+                        context.variantTypeProvider.submitVariantType();
                         Navigator.of(context).pop();
                       }
                     },

@@ -2,7 +2,7 @@ import 'package:admin/core/data/data_provider.dart';
 
 import '../../../models/brand.dart';
 import '../../../models/category.dart';
-import '../../../models/product.dart';
+import '../../../models/event.dart';
 import '../../../models/sub_category.dart';
 import '../../../models/variant_type.dart';
 import '../provider/dash_board_provider.dart';
@@ -13,25 +13,29 @@ import 'package:provider/provider.dart';
 import '../../../utility/constants.dart';
 import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_text_field.dart';
-import '../../../widgets/product_image_card.dart';
+import '../../../widgets/event_image_card.dart';
 
-class ProductSubmitForm extends StatelessWidget {
-  final Product? product;
+class EventSubmitForm extends StatelessWidget {
+  final Event? event;
 
-  const ProductSubmitForm({super.key, this.product});
+  const EventSubmitForm({Key? key, this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    context.dashBoardProvider.setDataForUpdateProduct(product);
+    context.read<DashBoardProvider>().setDataForUpdateEvent(event);
     return SingleChildScrollView(
       child: Form(
-        key: context.dashBoardProvider.addProductFormKey,
+        key: context.read<DashBoardProvider>().addEventFormKey,
         child: Container(
           width: size.width * 0.7,
           padding: EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
-            color: bgColor,
+            gradient: LinearGradient(
+              colors: [Color(0xFF012437), Color(0xFF4A934A)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Column(
@@ -44,10 +48,11 @@ class ProductSubmitForm extends StatelessWidget {
                 children: [
                   Consumer<DashBoardProvider>(
                     builder: (context, dashProvider, child) {
-                      return ProductImageCard(
+                      return EventImageCard(
                         labelText: 'Main Image',
                         imageFile: dashProvider.selectedMainImage,
-                        imageUrlForUpdateImage: product?.images.safeElementAt(0)?.url,
+                        imageUrlForUpdateImage:
+                            event?.images.safeElementAt(0)?.url,
                         onTap: () {
                           dashProvider.pickImage(imageCardNumber: 1);
                         },
@@ -60,10 +65,11 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                   Consumer<DashBoardProvider>(
                     builder: (context, dashProvider, child) {
-                      return ProductImageCard(
+                      return EventImageCard(
                         labelText: 'Second image',
                         imageFile: dashProvider.selectedSecondImage,
-                        imageUrlForUpdateImage: product?.images.safeElementAt(1)?.url,
+                        imageUrlForUpdateImage:
+                            event?.images.safeElementAt(1)?.url,
                         onTap: () {
                           dashProvider.pickImage(imageCardNumber: 2);
                         },
@@ -76,10 +82,11 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                   Consumer<DashBoardProvider>(
                     builder: (context, dashProvider, child) {
-                      return ProductImageCard(
+                      return EventImageCard(
                         labelText: 'Third image',
                         imageFile: dashProvider.selectedThirdImage,
-                        imageUrlForUpdateImage: product?.images.safeElementAt(2)?.url,
+                        imageUrlForUpdateImage:
+                            event?.images.safeElementAt(2)?.url,
                         onTap: () {
                           dashProvider.pickImage(imageCardNumber: 3);
                         },
@@ -92,10 +99,11 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                   Consumer<DashBoardProvider>(
                     builder: (context, dashProvider, child) {
-                      return ProductImageCard(
+                      return EventImageCard(
                         labelText: 'Fourth image',
                         imageFile: dashProvider.selectedFourthImage,
-                        imageUrlForUpdateImage: product?.images.safeElementAt(3)?.url,
+                        imageUrlForUpdateImage:
+                            event?.images.safeElementAt(3)?.url,
                         onTap: () {
                           dashProvider.pickImage(imageCardNumber: 4);
                         },
@@ -108,10 +116,11 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                   Consumer<DashBoardProvider>(
                     builder: (context, dashProvider, child) {
-                      return ProductImageCard(
+                      return EventImageCard(
                         labelText: 'Fifth image',
                         imageFile: dashProvider.selectedFifthImage,
-                        imageUrlForUpdateImage: product?.images.safeElementAt(4)?.url,
+                        imageUrlForUpdateImage:
+                            event?.images.safeElementAt(4)?.url,
                         onTap: () {
                           dashProvider.pickImage(imageCardNumber: 5);
                         },
@@ -126,81 +135,91 @@ class ProductSubmitForm extends StatelessWidget {
               ),
               SizedBox(height: defaultPadding),
               CustomTextField(
-                controller: context.dashBoardProvider.productNameCtrl,
-                labelText: 'Product Name',
+                controller: context.read<DashBoardProvider>().eventNameCtrl,
+                labelText: 'Event Name',
                 onSave: (val) {},
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter name';
                   }
+                  return null;
                 },
               ),
               SizedBox(height: defaultPadding),
               CustomTextField(
-                controller: context.dashBoardProvider.productDescCtrl,
-                labelText: 'Product Description',
+                controller: context.read<DashBoardProvider>().eventDescCtrl,
+                labelText: 'Event Description',
                 lineNumber: 3,
                 onSave: (val) {},
               ),
               SizedBox(height: defaultPadding),
               Row(
                 children: [
-                  Expanded(child: Consumer<DashBoardProvider>(
-                    builder: (context, dashProvider, child) {
-                      return CustomDropdown(
-                        key: ValueKey(dashProvider.selectedCategory?.sId),
-                        initialValue: dashProvider.selectedCategory,
-                        hintText: dashProvider.selectedCategory?.name ?? 'Select category',
-                        items: context.dataProvider.categories,
-                        displayItem: (Category? category) => category?.name ?? '',
-                        onChanged: (newValue) {
-                          if (newValue != null) {
-                            context
-                                .read<DashBoardProvider>()
-                                .filterSubcategory(newValue);
-                          }
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a category';
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  )),
-                  Expanded(child: Consumer<DashBoardProvider>(
-                    builder: (context, dashProvider, child) {
-                      return CustomDropdown(
-                        key: ValueKey(dashProvider.selectedSubCategory?.sId),
-                        hintText: dashProvider.selectedSubCategory?.name ?? 'Sub category',
-                        items: dashProvider.subCategoriesByCategory,
-                        initialValue: dashProvider.selectedSubCategory,
-                        displayItem: (SubCategory? subCategory) => subCategory?.name ?? '',
-                        onChanged: (newValue) {
-                          if (newValue != null) {
-                            context
-                                .read<DashBoardProvider>()
-                                .filterBrand(newValue);
-                          }
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select sub category';
-                          }
-                          return null;
-                        },
-                      );
-                    },
-                  )),
                   Expanded(
                     child: Consumer<DashBoardProvider>(
                       builder: (context, dashProvider, child) {
-                        return CustomDropdown(
+                        return CustomDropdown<Category?>(
+                          key: ValueKey(dashProvider.selectedCategory?.sId),
+                          initialValue: dashProvider.selectedCategory,
+                          hintText: dashProvider.selectedCategory?.name ??
+                              'Select category',
+                          items: context.read<DataProvider>().categories,
+                          displayItem: (Category? category) =>
+                              category?.name ?? '',
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              context
+                                  .read<DashBoardProvider>()
+                                  .filterSubcategory(newValue);
+                            }
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a category';
+                            }
+                            return null;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Consumer<DashBoardProvider>(
+                      builder: (context, dashProvider, child) {
+                        return CustomDropdown<SubCategory?>(
+                          key: ValueKey(dashProvider.selectedSubCategory?.sId),
+                          hintText: dashProvider.selectedSubCategory?.name ??
+                              'Sub category',
+                          items: dashProvider.subCategoriesByCategory,
+                          initialValue: dashProvider.selectedSubCategory,
+                          displayItem: (SubCategory? subCategory) =>
+                              subCategory?.name ?? '',
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              context
+                                  .read<DashBoardProvider>()
+                                  .filterBrand(newValue);
+                            }
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select sub category';
+                            }
+                            return null;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: Consumer<DashBoardProvider>(
+                      builder: (context, dashProvider, child) {
+                        return CustomDropdown<Brand?>(
                             key: ValueKey(dashProvider.selectedBrand?.sId),
                             initialValue: dashProvider.selectedBrand,
                             items: dashProvider.brandsBySubCategory,
-                            hintText: dashProvider.selectedBrand?.name ?? 'Select Brand',
+                            hintText: dashProvider.selectedBrand?.name ??
+                                'Select Brand',
                             displayItem: (Brand? brand) => brand?.name ?? '',
                             onChanged: (newValue) {
                               if (newValue != null) {
@@ -224,12 +243,13 @@ class ProductSubmitForm extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      controller: context.dashBoardProvider.productPriceCtrl,
+                      controller:
+                          context.read<DashBoardProvider>().eventPriceCtrl,
                       labelText: 'Price',
                       inputType: TextInputType.number,
                       onSave: (val) {},
                       validator: (value) {
-                        if (value == null) {
+                        if (value == null || value.isEmpty) {
                           return 'Please enter price';
                         }
                         return null;
@@ -238,7 +258,8 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                   Expanded(
                     child: CustomTextField(
-                      controller: context.dashBoardProvider.productOffPriceCtrl,
+                      controller:
+                          context.read<DashBoardProvider>().eventOffPriceCtrl,
                       labelText: 'Offer price',
                       inputType: TextInputType.number,
                       onSave: (val) {},
@@ -246,12 +267,13 @@ class ProductSubmitForm extends StatelessWidget {
                   ),
                   Expanded(
                     child: CustomTextField(
-                      controller: context.dashBoardProvider.productQntCtrl,
+                      controller:
+                          context.read<DashBoardProvider>().eventQntCtrl,
                       labelText: 'Quantity',
                       inputType: TextInputType.number,
                       onSave: (val) {},
                       validator: (value) {
-                        if (value == null) {
+                        if (value == null || value.isEmpty) {
                           return 'Please enter quantity';
                         }
                         return null;
@@ -266,11 +288,12 @@ class ProductSubmitForm extends StatelessWidget {
                   Expanded(
                     child: Consumer<DashBoardProvider>(
                       builder: (context, dashProvider, child) {
-                        return CustomDropdown(
+                        return CustomDropdown<VariantType?>(
                           key: ValueKey(dashProvider.selectedVariantType?.sId),
                           initialValue: dashProvider.selectedVariantType,
-                          items: context.dataProvider.variantTypes,
-                          displayItem: (VariantType? variantType) => variantType?.name ?? '',
+                          items: context.read<DataProvider>().variantTypes,
+                          displayItem: (VariantType? variantType) =>
+                              variantType?.name ?? '',
                           onChanged: (newValue) {
                             if (newValue != null) {
                               context
@@ -286,8 +309,11 @@ class ProductSubmitForm extends StatelessWidget {
                   Expanded(
                     child: Consumer<DashBoardProvider>(
                       builder: (context, dashProvider, child) {
-                        final filteredSelectedItems =
-                            dashProvider.selectedVariants.where((item) => dashProvider.variantsByVariantType.contains(item)).toList();
+                        final filteredSelectedItems = dashProvider
+                            .selectedVariants
+                            .where((item) => dashProvider.variantsByVariantType
+                                .contains(item))
+                            .toList();
                         return MultiSelectDropDown(
                           items: dashProvider.variantsByVariantType,
                           onSelectionChanged: (newValue) {
@@ -309,7 +335,7 @@ class ProductSubmitForm extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: secondaryColor,
+                      backgroundColor: Colors.blue, // foreground
                     ),
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
@@ -320,17 +346,17 @@ class ProductSubmitForm extends StatelessWidget {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: primaryColor,
+                      backgroundColor: Colors.green, // foreground
                     ),
                     onPressed: () {
                       // Validate and save the form
                       final form = context
                           .read<DashBoardProvider>()
-                          .addProductFormKey
+                          .addEventFormKey
                           .currentState;
                       if (form != null && form.validate()) {
                         form.save();
-                        context.read<DashBoardProvider>().submitProduct();
+                        context.read<DashBoardProvider>().submitEvent();
                         Navigator.of(context).pop();
                       }
                     },
@@ -347,14 +373,18 @@ class ProductSubmitForm extends StatelessWidget {
 }
 
 // How to show the popup
-void showAddProductForm(BuildContext context, Product? product) {
+void showAddEventForm(BuildContext context, Event? event) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: bgColor,
-        title: Center(child: Text('Add Product'.toUpperCase(), style: TextStyle(color: primaryColor))),
-        content: ProductSubmitForm(product: product),
+        title: Center(
+          child: Text(
+            'Add Event'.toUpperCase(),
+            style: TextStyle(color: primaryColor),
+          ),
+        ),
+        content: EventSubmitForm(event: event),
       );
     },
   );
@@ -369,7 +399,3 @@ extension SafeList<T> on List<T>? {
     return this![index];
   }
 }
-
-
-
-

@@ -1,8 +1,11 @@
-import 'components/dash_board_header.dart';
+import 'package:admin/core/data/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import '../../utility/constants.dart';
+import 'components/dash_board_header.dart';
 import 'components/add_product_form.dart';
+import 'components/add_event_form.dart';
 import 'components/order_details_section.dart';
 import 'components/product_list_section.dart';
 import 'components/product_summery_section.dart';
@@ -50,7 +53,9 @@ class DashboardScreen extends StatelessWidget {
                           Gap(20),
                           IconButton(
                               onPressed: () {
-                                //TODO: should complete call getAllProduct
+                                context
+                                  .read<DataProvider>()
+                                  .getAllEvent(showSnack: true);
                               },
                               icon: Icon(Icons.refresh)),
                         ],
