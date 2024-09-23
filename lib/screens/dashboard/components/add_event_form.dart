@@ -29,9 +29,9 @@ class EventSubmitForm extends StatelessWidget {
         key: context.read<DashBoardProvider>().addEventFormKey,
         child: Container(
           width: size.width * 0.7,
-          padding: EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.all(defaultPadding),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               colors: [Color(0xFF012437), Color(0xFF4A934A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -41,7 +41,7 @@ class EventSubmitForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -133,7 +133,7 @@ class EventSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               CustomTextField(
                 controller: context.read<DashBoardProvider>().eventNameCtrl,
                 labelText: 'Event Name',
@@ -145,14 +145,14 @@ class EventSubmitForm extends StatelessWidget {
                   return null;
                 },
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               CustomTextField(
                 controller: context.read<DashBoardProvider>().eventDescCtrl,
                 labelText: 'Event Description',
                 lineNumber: 3,
                 onSave: (val) {},
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -238,7 +238,7 @@ class EventSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -282,7 +282,7 @@ class EventSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: defaultPadding),
+              const SizedBox(width: defaultPadding),
               Row(
                 children: [
                   Expanded(
@@ -328,7 +328,7 @@ class EventSubmitForm extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -340,9 +340,9 @@ class EventSubmitForm extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the popup
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
-                  SizedBox(width: defaultPadding),
+                  const SizedBox(width: defaultPadding),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -360,7 +360,7 @@ class EventSubmitForm extends StatelessWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
@@ -381,7 +381,7 @@ void showAddEventForm(BuildContext context, Event? event) {
         title: Center(
           child: Text(
             'Add Event'.toUpperCase(),
-            style: TextStyle(color: primaryColor),
+            style: const TextStyle(color: primaryColor),
           ),
         ),
         content: EventSubmitForm(event: event),
