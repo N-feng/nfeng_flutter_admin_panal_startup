@@ -1,3 +1,5 @@
+import 'package:admin/utility/extensions.dart';
+
 import '../../../core/data/data_provider.dart';
 import '../../../models/my_notification.dart';
 import 'view_notification_form.dart';
@@ -15,10 +17,10 @@ class NotificationListSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
         color: secondaryColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +36,7 @@ class NotificationListSection extends StatelessWidget {
                 return DataTable(
                   columnSpacing: defaultPadding,
                   // minWidth: 600,
-                  columns: [
+                  columns: const [
                     DataColumn(
                       label: Text("Title"),
                     ),
@@ -56,7 +58,7 @@ class NotificationListSection extends StatelessWidget {
                     (index) => notificationDataRow(dataProvider.notifications[index], index + 1, edit: () {
                       viewNotificationStatics(context, dataProvider.notifications[index]);
                     }, delete: () {
-                      //TODO: should complete call deleteNotification
+                      context.notificationProvider.deleteNotification(dataProvider.notifications[index]);
                     }),
                   ),
                 );
@@ -97,7 +99,7 @@ DataRow notificationDataRow(MyNotification notificationInfo, int index, {Functio
           onPressed: () {
             if (edit != null) edit();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.remove_red_eye_sharp,
             color: Colors.white,
           ))),
@@ -105,7 +107,7 @@ DataRow notificationDataRow(MyNotification notificationInfo, int index, {Functio
           onPressed: () {
             if (delete != null) delete();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.delete,
             color: Colors.red,
           ))),

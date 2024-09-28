@@ -241,13 +241,13 @@ class OrderSubmitForm extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel'),
         ),
-        Gap(defaultPadding),
+        const Gap(defaultPadding),
         ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
           onPressed: () {
             if (Provider.of<OrderProvider>(context, listen: false).orderFormKey.currentState!.validate()) {
               Provider.of<OrderProvider>(context, listen: false).orderFormKey.currentState!.save();
-              //TODO: should complete call updateOrder
+              context.read<OrderProvider>().updateOrder();
               Navigator.of(context).pop();
             }
           },

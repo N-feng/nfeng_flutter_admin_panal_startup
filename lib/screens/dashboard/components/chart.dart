@@ -1,3 +1,4 @@
+import 'package:admin/utility/extensions.dart';
 import '../../../core/data/data_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,9 @@ import 'package:provider/provider.dart';
 import '../../../utility/constants.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({
-    Key? key,
-  }) : super(key: key);
+  final bool isOrder;
+
+  const Chart({Key? key, required this.isOrder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,11 @@ class Chart extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: defaultPadding),
+                const SizedBox(height: defaultPadding),
                 Consumer<DataProvider>(
                   builder: (context, dataProvider, child) {
                     return Text(
-                      '${0}', //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
+                      '${context.dataProvider.calculateOrderWithStatus()}',
                       style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -40,8 +41,8 @@ class Chart extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: defaultPadding),
-                Text("Order")
+                const SizedBox(height: defaultPadding),
+                const Text("Order")
               ],
             ),
           ),
@@ -53,35 +54,34 @@ class Chart extends StatelessWidget {
   List<PieChartSectionData> _buildPieChartSelectionData(BuildContext context) {
     final DataProvider dataProvider = Provider.of<DataProvider>(context);
 
-    //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
-    int totalOrder = 0;
-    int pendingOrder = 0;
-    int processingOrder = 0;
-    int cancelledOrder = 0;
-    int shippedOrder = 0;
-    int deliveredOrder = 0;
+    int totalOrder = context.dataProvider.calculateOrderWithStatus();
+    int pendingOrder = context.dataProvider.calculateOrderWithStatus(status: 'pending');
+    int processingOrder = context.dataProvider.calculateOrderWithStatus(status: 'processing');
+    int cancelledOrder = context.dataProvider.calculateOrderWithStatus(status: 'cancelled');
+    int shippedOrder = context.dataProvider.calculateOrderWithStatus(status: 'shipped');
+    int deliveredOrder = context.dataProvider.calculateOrderWithStatus(status: 'delivered');
 
     List<PieChartSectionData> pieChartSelectionData = [
       PieChartSectionData(
-        color: Color(0xFFFFCF26),
+        color: const Color(0xFFFFCF26),
         value: pendingOrder.toDouble(),
         showTitle: false,
         radius: 20,
       ),
       PieChartSectionData(
-        color: Color(0xFFEE2727),
+        color: const Color(0xFFEE2727),
         value: cancelledOrder.toDouble(),
         showTitle: false,
         radius: 20,
       ),
       PieChartSectionData(
-        color: Color(0xFF2697FF),
+        color: const Color(0xFF2697FF),
         value: shippedOrder.toDouble(),
         showTitle: false,
         radius: 20,
       ),
       PieChartSectionData(
-        color: Color(0xFF26FF31),
+        color: const Color(0xFF26FF31),
         value: deliveredOrder.toDouble(),
         showTitle: false,
         radius: 20,

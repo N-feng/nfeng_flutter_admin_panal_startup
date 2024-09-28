@@ -3,7 +3,6 @@ import 'dart:developer';
 import '../../../models/api_response.dart';
 import '../../../models/coupon.dart';
 import '../../../models/product.dart';
-import '../../../models/event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../../../core/data/data_provider.dart';
@@ -27,7 +26,7 @@ class CouponCodeProvider extends ChangeNotifier {
   Category? selectedCategory;
   SubCategory? selectedSubCategory;
   Product? selectedProduct;
-  Event? selectedEvent;
+
   CouponCodeProvider(this._dataProvider);
 
   addCoupon() async {
@@ -45,8 +44,7 @@ class CouponCodeProvider extends ChangeNotifier {
         "status": selectedCouponStatus,
         "applicableCategory": selectedCategory?.sId,
         "applicableSubCategory": selectedSubCategory?.sId,
-        "applicableProduct": selectedProduct?.sId,
-        "applicableEvent": selectedEvent?.sId
+        "applicableProduct": selectedProduct?.sId
       };
       final response =
           await service.addItem(endpointUrl: 'couponCodes', itemData: coupon);
@@ -58,12 +56,10 @@ class CouponCodeProvider extends ChangeNotifier {
           log('Coupon added');
           _dataProvider.getAllCoupons();
         } else {
-          SnackBarHelper.showErrorSnackBar(
-              'Failed to add Coupon: ${apiResponse.message}');
+          SnackBarHelper.showErrorSnackBar('Failed to add Coupon: ${apiResponse.message}');
         }
       } else {
-        SnackBarHelper.showErrorSnackBar(
-            'Error ${response.body?['message'] ?? response.statusText}');
+        SnackBarHelper.showErrorSnackBar('Error ${response.body?['message'] ?? response.statusText}');
       }
     } catch (e) {
       print(e);
@@ -84,8 +80,7 @@ class CouponCodeProvider extends ChangeNotifier {
           "status": selectedCouponStatus,
           "applicableCategory": selectedCategory?.sId,
           "applicableSubCategory": selectedSubCategory?.sId,
-          "applicableProduct": selectedProduct?.sId,
-          "applicableEvent": selectedEvent?.sId
+          "applicableProduct": selectedProduct?.sId
         };
         final response = await service.updateItem(
             endpointUrl: 'couponCodes',

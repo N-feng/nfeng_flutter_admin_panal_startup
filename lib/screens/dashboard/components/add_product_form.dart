@@ -5,7 +5,7 @@ import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/sub_category.dart';
 import '../../../models/variant_type.dart';
-import '../provider/dash_board_provider.dart';
+import '../provider/dashboard_provider.dart';
 import '../../../utility/extensions.dart';
 import '../../../widgets/multi_select_drop_down.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,6 @@
+import 'package:admin/screens/notification/provider/notification_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../../../utility/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -77,7 +80,7 @@ class SendNotificationForm extends StatelessWidget {
                       // Validate and save the form
                       if (context.notificationProvider.sendNotificationFormKey.currentState!.validate()) {
                         context.notificationProvider.sendNotificationFormKey.currentState!.save();
-                        //TODO: should complete call sendNotification
+                        context.read<NotificationProvider>().sendNotification();
                         Navigator.of(context).pop();
                       }
                     },

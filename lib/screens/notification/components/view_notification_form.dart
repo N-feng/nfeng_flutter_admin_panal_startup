@@ -1,10 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../models/my_notification.dart';
 import '../provider/notification_provider.dart';
 import '../../../utility/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
-
 import 'notification_statics_card.dart';
 
 class ViewNotificationForm extends StatelessWidget {
@@ -14,13 +12,12 @@ class ViewNotificationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
-    //TODO: should complete getNotificationInfo
+    var size = MediaQuery.of(context).size;
+    context.read<NotificationProvider>().getNotificationInfo(notification);
+
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         width: size.width * 0.5, // Adjust width based on screen size
         decoration: BoxDecoration(
           color: bgColor,
@@ -30,7 +27,7 @@ class ViewNotificationForm extends StatelessWidget {
               color: Colors.black.withOpacity(0.1),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -40,13 +37,13 @@ class ViewNotificationForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(notification?.title ?? 'N/A', style: TextStyle(fontSize: 16)),
+                Text(notification?.title ?? 'N/A', style: const TextStyle(fontSize: 16)),
               ],
             ),
-            Gap(10),
+            const SizedBox(height: 10),
             Container(
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.all(defaultPadding),
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.all(defaultPadding),
               decoration: BoxDecoration(
                 color: secondaryColor, // Light grey background to stand out
                 borderRadius: BorderRadius.circular(8.0),
@@ -97,7 +94,7 @@ class ViewNotificationForm extends StatelessWidget {
                 },
               ),
             ),
-            Gap(10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -122,7 +119,7 @@ void viewNotificationStatics(BuildContext context, MyNotification? notification)
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: bgColor,
-        title: Center(child: Text('Notification Statics'.toUpperCase(), style: TextStyle(color: primaryColor))),
+        title: Center(child: Text('Notification Statics'.toUpperCase(), style: const TextStyle(color: primaryColor))),
         content: ViewNotificationForm(notification: notification),
       );
     },

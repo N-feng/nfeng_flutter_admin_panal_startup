@@ -1,3 +1,5 @@
+import 'package:admin/utility/extensions.dart';
+
 import 'components/notification_header.dart';
 import 'components/notification_list_section.dart';
 import 'package:flutter/material.dart';
@@ -5,20 +7,17 @@ import 'package:gap/gap.dart';
 import '../../utility/constants.dart';
 import 'components/send_notification_form.dart';
 
-
-
-
 class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
       child: SingleChildScrollView(
         primary: false,
-        padding: EdgeInsets.all(defaultPadding),
+        padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            NotificationHeader(),
-            Gap(defaultPadding),
+            const NotificationHeader(),
+            const Gap(defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -40,7 +39,7 @@ class NotificationScreen extends StatelessWidget {
                           ),
                           ElevatedButton.icon(
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: defaultPadding * 1.5,
                                 vertical:
                                 defaultPadding,
@@ -49,19 +48,20 @@ class NotificationScreen extends StatelessWidget {
                             onPressed: () {
                               sendNotificationFormForm(context);
                             },
-                            icon: Icon(Icons.add),
-                            label: Text("Send New"),
+                            icon: const Icon(Icons.add),
+                            label: const Text("Send New"),
                           ),
-                          Gap(20),
+                          const Gap(20),
                           IconButton(
                               onPressed: () {
-                                //TODO: should complete call getAllNotifications
+                                context.dataProvider
+                                    .getAllNotifications(showSnack: true);
                               },
-                              icon: Icon(Icons.refresh)),
+                              icon: const Icon(Icons.refresh)),
                         ],
                       ),
-                      Gap(defaultPadding),
-                      NotificationListSection(),
+                      const Gap(defaultPadding),
+                      const NotificationListSection(),
                     ],
                   ),
                 ),

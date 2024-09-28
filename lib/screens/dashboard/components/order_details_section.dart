@@ -14,31 +14,32 @@ class OrderDetailsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<DataProvider>(
       builder: (context, dataProvider, child) {
-        //TODO: should complete Make this order number dynamic bt calling calculateOrdersWithStatus
-        int totalOrder = 0;
-        int pendingOrder = 0;
-        int processingOrder = 0;
-        int cancelledOrder = 0;
-        int shippedOrder = 0;
-        int deliveredOrder = 0;
+        int totalOrder = dataProvider.calculateOrderWithStatus();
+        int pendingOrder = dataProvider.calculateOrderWithStatus(status: 'pending');
+        int processingOrder = dataProvider.calculateOrderWithStatus(status: 'processing');
+        int cancelledOrder = dataProvider.calculateOrderWithStatus(status: 'cancelled');
+        int shippedOrder = dataProvider.calculateOrderWithStatus(status: 'shipped');
+        int deliveredOrder = dataProvider.calculateOrderWithStatus(status: 'delivered');
         return Container(
-          padding: EdgeInsets.all(defaultPadding),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(defaultPadding),
+          decoration: const BoxDecoration(
             color: secondaryColor,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Orders Details",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: defaultPadding),
-              Chart(),
+              const SizedBox(height: defaultPadding),
+              const Chart(
+                isOrder: true,
+              ),
               OrderInfoCard(
                 svgSrc: "assets/icons/delivery1.svg",
                 title: "All Orders",
